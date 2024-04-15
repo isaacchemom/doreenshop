@@ -4,26 +4,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CHS STORE|INVENTORY</title>
-    <!-- CSS -->
+    <title>SMS</title>
+   
 
-
-<!-- JavaScript -->
-
-
+<link href="https://www.chukahighschool.sc.ke/bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ 
+  
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <div class="wrapper" id="app">
-
-<loader-component></loader-component>
 
     
+    <div class="wrapper" id="app">
+
+        
+
+        <loader-component></loader-component>
+
+
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
 
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -76,12 +81,33 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
 
-                        <li class="nav-item">
+                    
 
+                        
+    
+
+                        <li class="nav-item">
+                            
                             <router-link to="/dashboard" class="nav-link" active-class="active">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     DASHBOARD
+
+                                </p>
+                            </router-link>
+
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item">
+
+                            <router-link to="/staff" class="nav-link" active-class="active">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    STAFF
 
                                 </p>
                             </router-link>
@@ -105,60 +131,114 @@
                         </li>
                     </ul>
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                    data-accordion="false">
+                        data-accordion="false">
 
-                    <li class="nav-item">
+                        <li class="nav-item">
 
-                        <router-link to="/departments" class="nav-link" active-class="active">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                DEPARTMENTS|OFFICES
+                            <router-link to="/departments" class="nav-link" active-class="active">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    DEPARTMENTS|OFFICES
 
-                            </p>
-                        </router-link>
+                                </p>
+                            </router-link>
 
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
 
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                    data-accordion="false">
+                        data-accordion="false">
 
-                    <li class="nav-item">
+                        <li class="nav-item">
 
-                        <router-link to="/category" class="nav-link" active-class="active">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                CATEGORIES
+                            <router-link to="/category" class="nav-link" active-class="active">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    CATEGORIES
 
-                            </p>
-                        </router-link>
+                                </p>
+                            </router-link>
 
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item">
+
+                            <router-link to="/products" class="nav-link" active-class="active">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Products
+
+                                </p>
+                            </router-link>
+
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item">
+
+                            <router-link to="/sales" class="nav-link" active-class="active">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+
+                                    Sales
+                                </p>
+                            </router-link>
+
+                        </li>
+                    </ul>
+
                     
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
 
                     <li class="nav-item">
 
-                        <router-link to="/items" class="nav-link" active-class="active">
+                        <router-link to="/dailyreport" class="nav-link" active-class="active">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-                                ITEMS MANAGEMENT
 
+                                Daily Report
                             </p>
                         </router-link>
 
                     </li>
                 </ul>
-                   
-                    
+
+
+
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+
+                <li class="nav-item">
+
+                    <router-link to="/dailyreports" class="nav-link" active-class="active">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+
+                            Sales Report
+                        </p>
+                    </router-link>
+
+                </li>
+            </ul>
+
+
                 </nav>
+
+                
                 
 
             </div>
 
         </aside>
+        
 
         <div class="content-wrapper">
             <router-view></router-view>
@@ -183,10 +263,37 @@
             reserved.
         </footer>
     </div>
-
    
+    
+  
 
- 
+    
+    <!--
+    
+   
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js'"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/jszip/jszip.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.flash.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script> 
+
+<script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://adminlte.io/themes/v3/dist/js/adminlte.min.js?v=3.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script
+
+-->
+
+
+ <!-- Bootstrap CSS -->
+
+    <script type="text/javascript" src="https://unpkg.com/@popperjs/core@2"></script>
+
 </body>
 
 </html>

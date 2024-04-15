@@ -71,34 +71,34 @@
 <hr>
 <div class="container">
 
-<button class="btn btn-primary" @click="newItem">ADD NEW </button>
-<h5 class="text-center">DEPARTMENTS|OFFICES</h5>
-<table class="table table-stripped table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">NAME</th>
-            <th scope="col">DESCRIPTION</th>
-            <th scope="col">Option</th>
+    <button class="btn btn-primary" @click="newItem">ADD NEW </button>
+    <h5 class="text-center">DEPARTMENTS|OFFICES</h5>
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">NAME</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">Option</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr v-for="(department, index) in departments" v-bind:key="index">
-            <td>{{ index+1 }}</td>
-            <td>{{ department.name }}</td>
-            <td v-if="department.description==null">
-                <h5>--</h5>
-            </td>
-            <td v-else>{{ department.description }}</td>
-            <!--<td>  <input @onblur="update(task,$event.target.value)" >-
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(department, index) in departments" v-bind:key="index">
+                <td>{{ index+1 }}</td>
+                <td>{{ department.name }}</td>
+                <td v-if="department.description==null">
+                    <h5>--</h5>
+                </td>
+                <td v-else>{{ department.description }}</td>
+                <!--<td>  <input @onblur="update(task,$event.target.value)" >-
                       <a href="#" @click.prevent="updates(task)"><i class="fa fa-edit"></i></a>  </td>-->
-            <td> <a href="#" @click.prevent="updateDepartment(department)"><i class="fa fa-edit"></i></a>
-                <a href="#" @click.prevent="deleteDepartment(department)"><i class="fa fa-trash text-danger  ml-4"></i></a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                <td> <a href="#" @click.prevent="updateDepartment(department)"><i class="fa fa-edit"></i></a>
+                    <a href="#" @click.prevent="deleteDepartment(department)"><i class="fa fa-trash text-danger  ml-4"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </template>
 
@@ -138,7 +138,7 @@ export default {
             this.department = {
                 name: '',
                 description: '',
-            
+
             }
 
             $("#taskmodal").modal("show");
@@ -149,7 +149,7 @@ export default {
             //this.item = ''
             this.editMode = true;
             $("#taskmodal").modal("show");
-             this.department = myitem;
+            this.department = myitem;
 
             // alert('hi boy')
 
@@ -158,7 +158,7 @@ export default {
         deleteDepartment(myitem) {
             //this.editMode = false
 
-             this.department.id = myitem.id;
+            this.department.id = myitem.id;
             $("#deleteModal").modal("show");
         },
 

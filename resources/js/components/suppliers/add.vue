@@ -1,6 +1,29 @@
 <template>
-<!-- Radio buttons -->
 <div style="background-color:white;" class="mt-4 ml-4 mr-4">
+<!-- DELETE ITEMS  MODAL -->
+<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Supplier?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 class="alert alert-warning">Are you sure you want to delete item?</h6>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" @click="removeSupplier">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---end of delete modal-->
+<!-- Radio buttons -->
 
     <hr />
 
@@ -22,7 +45,7 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3 m-auto"  @submit.prevent="!editMode ? savesupplier() : editSupplier()">
+                    <form class="row g-3 m-auto" @submit.prevent="!editMode ? savesupplier() : editSupplier()">
                         <div class="col-md-6">
                             <label class="form-label">NAME</label>
                             <input type="text" class="form-control" v-model="supplier.name" required pattern="[A-Za-z\s]+">
@@ -45,7 +68,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">
-                                {{ !editMode ? 'New supplier' : 'Update' }}</button>
+                                {{ !editMode ? 'Add supplier' : 'Update' }}</button>
                         </div>
                     </form>
                 </div>
@@ -84,7 +107,12 @@
                <input @onblur="update(task,$event.target.value)" >-
               <a href="#" @click.prevent="updates(task)"><i class="fa fa-edit"></i></a>
             </td>-->
-            <td> <a href="#" @click.prevent="editSupplier(supplier)"><i class="fa fa-edit"></i>edit</a></td>
+            <td> <a href="#" @click.prevent="updateSupplier(supplier)"><i class="fa fa-edit"></i>edit</a>
+                <a href="#" @click.prevent="deleteSuppliers(supplier)"><i class="fa fa-trash text-danger  ml-4"></i></a>
+            
+            </td>
+
+           
         </tr>
     </tbody>
 </table>
@@ -134,19 +162,20 @@ export default {
             $("#taskmodal").modal("show");
         },
 
-        editSupplier(supplier) {
+        updateSupplier(supp) {
             //console.log(supplier);
 
             this.editMode = true;
             $("#taskmodal").modal("show");
-            this.supplier = {
-                name: supplier.name,
-                contact: supplier.contact,
-                email: supplier.email,
-                address: supplier.address,
+            this.supplier = supp;
 
-            }
-
+        },
+        deleteSuppliers(myitem) {
+            //this.editMode = false
+            this.supplier.id = myitem.id;
+           
+            $("#deleteModal").modal("show");
+            
         },
 
         savesupplier() {
@@ -158,6 +187,7 @@ export default {
                     position: "top",
                     dismissible: false
                 })
+                $("#taskmodal").modal("hide");
 
                 //alert("EXCEL FILE saved successfully");
                 this.$emitter.emit('changeLoaderStatus', false)
@@ -197,7 +227,94 @@ export default {
                 this.$emitter.emit('changeLoaderStatus', false)
             })
 
-        }
+        },
+
+        editSupplier() {
+
+            this.$emitter.emit('changeLoaderStatus', true)
+            axios.patch("http://127.0.0.1:8000/api/editSupplier/" + this.supplier.id, this.supplier).then(() => {
+
+                this.$toast.success(`Supplier updated successfully`,
+
+                    {
+                        position: "top",
+                        dismissible: false
+
+                    }
+
+                )
+                $("#taskmodal").modal("hide");
+
+                this.$emitter.emit('changeLoaderStatus', false)
+
+            }).finally(() => {
+                $("#taskModal").modal("hide")
+            }).catch(error => {
+
+                if (error.response && error.response.status === 500) {
+                    this.importErrors = error.response.data.error;
+                    this.showAlert = true;
+
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 5000);
+                    //console.log('Errors:', this.errors);
+                } else {
+                    //console.error('Unknown errors:', error);
+                    // alert('check file again')
+                    this.$toast.error(`Error! try again!`, {
+                            position: "top"
+
+                        }
+
+                    )
+                }
+                this.$emitter.emit('changeLoaderStatus', false)
+
+            }).finally(() => {
+                $("#taskModal").modal("hide");
+            });
+        },
+        removeSupplier() {
+            this.$emitter.emit('changeLoaderStatus', true)
+            // var data = new FormData(formOnes);
+            axios.post("http://127.0.0.1:8000/api/deleteSupplier/" + this.supplier.id).then(response => {
+
+                $("#deleteModal").modal("hide");
+                this.suppliers = this.suppliers.filter((supplier) => supplier.id !== this.supplier.id);
+
+                this.$toast.success(`Supplier Deleted successfully`, {
+                    position: "top",
+                    dismissible: false
+                })
+
+                this.$emitter.emit('changeLoaderStatus', false)
+            }).catch(error => {
+
+                //alert("Error in uploading,check your file type and try gain!");
+
+                if (error.response && error.response.status === 500) {
+
+                    this.$toast.error(`SOMETHING WENT WRONG! CONTACT ADMIN FOR HELP!`, {
+                            position: "top"
+
+                        }
+
+                    )
+                } else {
+
+                    this.$toast.error(`serverError! try again!`, {
+                            position: "top"
+
+                        }
+
+                    )
+                }
+                this.$emitter.emit('changeLoaderStatus', false)
+
+            });
+
+        },
 
     },
 

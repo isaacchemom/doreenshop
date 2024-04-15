@@ -44,49 +44,68 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3 m-auto" ref="form" @submit.prevent="!editMode ? saveItem() : editItems()">
+                    <form class="row g-3 m-auto" ref="form" @submit.prevent="!editMode ? saveProduct() : editProduct()">
                         <div class="col-md-6">
-                            <label class="form-label">NAME</label>
-                            <input type="text" class="form-control" v-model="item.name" required >
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" v-model="product.name" required  placeholder="e.g shirt, trouser ">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">ITEM CODE</label>
-                            <input type="text" class="form-control" v-model="item.item_no" required>
+                            <label class="form-label">Type|Fashion </label>
+                            <input type="text" class="form-control" v-model="product.type" required placeholder="e.g jeans">
                         </div>
-
                         <div class="col-md-6">
-                            <label class="form-label">CATEGORY</label>
-                            <select v-model="item.categoryId" class="form-control" required>
-                                <option value="" disabled>Select a Category</option>
-                                <option v-for="category in mycategories" :value="category.id" :key="category.id">{{ category.name }}</option>
-                            </select>
+                            <label class="form-label">Color</label>
+                            <input type="text" class="form-control" v-model="product.color" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">SUPPLIER NAME</label>
-                            <select v-model="item.supplierId" class="form-control" required>
-                                <option value="" disabled>Select supplier</option>
-                                <option v-for="supplier in suppliers" :value="supplier.id" :key="supplier.id">{{ supplier.name }}</option>
-                            </select>
+                            <label class="form-label">Size</label>
+                            <input type="text" class="form-control" v-model="product.size" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Quantity</label>
-                            <input type="text" class="form-control" v-model="item.quantity" required>
+                            <label class="form-label">Gender</label>
+                            <select v-model="product.gender" class="form-control" required>
+                                <option value="" disabled>Select </option>
+                                <option value="Female" >Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Universal" >universal</option>  
+                             </select>
+                             </div>
+                             <div class="col-md-6">
+                            <label class="form-label">Category</label>
+                            <select v-model="product.category" class="form-control" required>
+                                <option value="" disabled>Select </option>
+                                <option value="Female" >Adult</option>
+                                <option value="Male">Children</option>
+                                 
+                             </select>
+                             </div>
+
+                       
+                        <div class="col-md-6">
+                            <label class="form-label">Quantity Receceived</label>
+                            <input type="text" class="form-control" v-model="product.quantity" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">PRICE</label>
-                            <input type="text" class="form-control" v-model="item.price" required>
+                            <label class="form-label">Unit Price</label>
+                            <input type="text" class="form-control" v-model="product.unitprice" required>
                         </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Total Price</label>
+                            <input type="text" class="form-control" v-model="product.totalprice" required>
+                        </div>
+
                         <div class="col-md-6">
                             <label class="form-label">DESCRIPTION</label>
-                            <input type="text" class="form-control" v-model="item.description">
+                            <textarea type="text" class="form-control" v-model="product.description"></textarea>
                         </div>
-
+                        <hr/>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">
-                                {{ !editMode ? 'save Item' : 'Update Item' }}</button>
+                                {{ !editMode ? 'save Product' : 'Update product' }}</button>
                         </div>
                     </form>
                 </div>
@@ -101,7 +120,8 @@
 <div class="ml-4">
     <button class="btn btn-primary" @click="newItem">ADD NEW </button>
 
-    <h4 class="text-center">LIST OF ITEMS</h4>
+    <h6 class="text-center">List of items in Stock</h6>
+    <!--
     <table class="table table-stripped table-hover">
         <thead>
             <tr>
@@ -111,29 +131,41 @@
                 <th scope="col">CATEGORY</th>
                 <th scope="col">SUPPLIER NAME</th>
                 <th scope="col">QUANTITY</th>
+                <th scope="col">REM QUANTITY</th>
                 <th scope="col">PRICE</th>
+                <th scope="col">DEPARTMENT</th>
                 <th scope="col">Option</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in items" v-bind:key="index">
+            <tr v-for="(myproduct, index) in products" v-bind:key="index">
                 <td scope="row">{{ index+1}}</td>
-                <td scope="row">{{ item.name }}</td>
-                <td>{{ item.item_no }}</td>
-                <td>{{ item.categories.name}}</td>
-                <td>{{ item.suppliers.name}}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.price }}</td>
-                <!--<td>  <input @onblur="update(task,$event.target.value)" >-
-                  <a href="#" @click.prevent="updates(task)"><i class="fa fa-edit"></i></a>  </td>-->
-                <td> <a href="#" @click.prevent="updateItem(item)"><i class="fa fa-edit"></i></a>
-                    <a href="#" @click.prevent="deleteItem(item)"><i class="fa fa-trash text-danger  ml-4"></i></a>
+                <td scope="row">{{ myproduct.name }}</td>
+                <td>{{ myproduct.color }}</td>
+                
+                <td>{{ myproduct.price }}</td>
+                
+                <td>  <input @onblur="update(task,$event.target.value)" 
+                  <a href="#" @click.prevent="updates(task)"><i class="fa fa-edit"></i></a>  </td>
+                <td> <a href="#" @click.prevent="updateItem(myproduct)"><i class="fa fa-edit"></i></a>
+                    <a href="#" @click.prevent="deleteItem(myproduct)"><i class="fa fa-trash text-danger  ml-4"></i></a>
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
 </div>
+
+<vue-good-table :columns="columns" :rows="products" :fixed-header="false" :line-numbers="true" max-height="500px"
+ :search-options="{
+  enabled: true,
+  placeholder: 'Search',
+}" :pagination-options="{
+  enabled: true,
+  perPage: 15,
+}" styleClass="vgt-table striped condensed  table-hover">
+</vue-good-table>
+
 </template>
 
 <script>
@@ -142,22 +174,90 @@ export default {
 
     data() {
         return {
-            item: {
+            product: {
                 name: '',
-                item_no: '',
+                color: '',
+                size:'',
+                gender:'',
                 quantity: '',
-                price: '',
+                unitprice: '',
+                totalprice:'',
                 description: '',
-                categoryId: '',
-                supplierId: ''
+                category:'',
+                type:''
+
+                
+
             },
             showAlert: false,
             //  form: null,
             // edit: false,
             editMode: false,
-            items: [],
+            products: [],
             mycategories: [],
             suppliers: [],
+            departments:[],
+
+
+            columns: [{
+                    label: 'Item Name',
+                    field: 'name',
+                },
+                {
+                    label: 'Type|Fashion',
+                    field: 'type',
+
+                },
+                {
+                    label: 'Color',
+                    field: 'color',
+
+                },
+                {
+                    label: 'Category',
+                    field: 'category',
+
+                },
+                {
+                    label: 'Gender',
+                    field: 'gender',
+
+                },
+                {
+                    label: 'size',
+                    field: 'size',
+
+                },
+                {
+                    label: 'quantity',
+                    field: 'quantity',
+
+                },
+                {
+                    label: 'Selling price',
+                    field: 'unit_price',
+
+                },
+                {
+                    label: 'Description',
+                    field: 'description',
+
+                },
+
+                {
+                    label: 'Date created',
+                    field: 'created_at',
+                    type: 'date',
+                    dateInputFormat: 'yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSxxx',
+                    dateOutputFormat: 'MMM do yyyy, HH:mm:ss',
+                },
+
+                {
+                    label: 'Actions',
+                    field: 'actions'
+                }
+
+            ],
 
         }
 
@@ -165,24 +265,30 @@ export default {
 
     mounted() {
 
-        this.getItems();
-        this.getsuppliers();
+        this.getProducts();
+      //  this.getsuppliers();
 
-        this.getCategories();
+       // this.getCategories();
+       // this.getDepartments()
     },
 
     methods: {
         newItem() {
 
             this.editMode = false
-            this.item = {
+           this.product={
                 name: '',
-                item_no: '',
+                color: '',
+                size:'',
+                gender:'',
                 quantity: '',
-                price: '',
+                unitprice: '',
+                totalprice:'',
                 description: '',
-                categoryId: ''
-            }
+                type:''
+                
+
+            },
 
             $("#taskmodal").modal("show");
         },
@@ -190,6 +296,7 @@ export default {
         updateItem(myitem) {
             //console.log(supplier);
             //this.item = ''
+           // console.log(this.item)
             this.editMode = true;
             $("#taskmodal").modal("show");
             this.item = myitem;
@@ -205,11 +312,11 @@ export default {
             $("#deleteModal").modal("show");
         },
 
-        saveItem() {
+        saveProduct() {
 
             this.$emitter.emit('changeLoaderStatus', true)
             // var data = new FormData(formOnes);
-            axios.post("http://127.0.0.1:8000/api/addItem", this.item).then(response => {
+            axios.post("http://127.0.0.1:8000/api/addProduct", this.product).then(response => {
 
                 this.$toast.success(`Item Saved successfully`, {
                     position: "top",
@@ -218,7 +325,7 @@ export default {
                 $("#taskmodal").modal("hide");
 
                 this.$emitter.emit('changeLoaderStatus', false);
-                this.getItems();
+                this.getProducts();
                 //this.items.push(this.item);
 
             }).catch(error => {
@@ -245,22 +352,24 @@ export default {
             });
         },
 
-        getItems() {
+      
+
+        getProducts() {
             this.$emitter.emit('changeLoaderStatus', true)
-            axios.get("http://127.0.0.1:8000/api/getItems").then(response => {
-                this.items = response.data.data;
+            axios.get("http://127.0.0.1:8000/api/getProducts").then(response => {
+                this.products = response.data.data;
 
                 this.$emitter.emit('changeLoaderStatus', false)
             })
 
         },
 
-        editItems() {
+        editProduct() {
 
             this.$emitter.emit('changeLoaderStatus', true)
-            axios.patch("http://127.0.0.1:8000/api/updateItems/" + this.item.id, this.item).then(() => {
+            axios.patch("http://127.0.0.1:8000/api/updateProduct/" + this.product.id, this.product).then(() => {
 
-                this.$toast.success(`Saved successfully`,
+                this.$toast.success(`Product updated successfully`,
 
                     {
                         position: "top",
@@ -272,6 +381,7 @@ export default {
                 $("#taskmodal").modal("hide");
 
                 this.$emitter.emit('changeLoaderStatus', false)
+                this.getItems();
 
             }).finally(() => {
                 $("#taskModal").modal("hide")
@@ -313,15 +423,15 @@ export default {
 
         },
 
-        removeItem() {
+        removeProduct() {
             this.$emitter.emit('changeLoaderStatus', true)
             // var data = new FormData(formOnes);
-            axios.post("http://127.0.0.1:8000/api/deleteItem/" + this.item.id).then(response => {
+            axios.post("http://127.0.0.1:8000/api/deleteProduct/" + this.product.id).then(response => {
 
                 $("#deleteModal").modal("hide");
-                this.items = this.items.filter((item) => item.id !== this.item.id);
+                this.products = this.products.filter((product) => product.id !== this.product.id);
 
-                this.$toast.success(`Deleted successfully`, {
+                this.$toast.success(`Product Deleted successfully`, {
                     position: "top",
                     dismissible: false
                 })
